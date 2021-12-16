@@ -5,62 +5,60 @@ import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
+  final void Function(String id) onRemove;
 
-  const TransactionList(this.transactions, {Key? key}) : super(key: key);
+  const TransactionList(
+    this.transactions, {
+    required this.onRemove,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: transactions.map((transaction) {
-        return Card(
-          elevation: 5,
-          child: Row(children: [
-            Container(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 15,
-                vertical: 10,
-              ),
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 2,
-                  color: Colors.amber.shade700,
-                ),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Text(
-                'R\$ ${transaction.value.toStringAsFixed(2)}',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Colors.amber.shade700,
-                ),
-              ),
-            ),
-//
+    return SizedBox(
+      height: 350,
+      child: ListView.builder(
+          itemCount: transactions.length,
+          itemBuilder: (_, i) {
+            final transaction = transactions[i];
+            final primaryColor = Theme.of(context).primaryColor;
 
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(
-                transaction.title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-//
+            final formattedValue =
+                'R\$ ${transaction.value.toStringAsFixed(2)}';
+            final formattedDate =
+                DateFormat('d MMM y').format(transaction.date);
 
-              Text(
-                DateFormat('d MMM y').format(transaction.date),
-                style: TextStyle(
-                  fontSize: 14,
-                  fontStyle: FontStyle.italic,
-                  color: Colors.grey[500],
+            return Card(
+              elevation: 5,
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              child: ListTile(
+                leading: CircleAvatar(
+                  radius: 30,
+                  backgroundColor: primaryColor,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 6),
+                    child: FittedBox(
+                      child: Text(
+                        formattedValue,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                title: Text(transaction.title),
+                subtitle: Text(formattedDate),
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete),
+                  color: Colors.redAccent.shade200,
+                  onPressed: () => onRemove(transaction.id),
                 ),
               ),
-            ])
-          ]),
-        );
-      }).toList(),
+            );
+          }),
     );
   }
 }
