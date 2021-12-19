@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class TransactionForm extends StatefulWidget {
@@ -42,80 +43,87 @@ class _TransactionFormState extends State<TransactionForm> {
   Widget build(BuildContext context) {
     final primaryColor = Theme.of(context).primaryColor;
 
-    return Card(
-      elevation: 5,
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            TextField(
-              controller: _titleController,
-              keyboardAppearance: Brightness.dark,
-              decoration: InputDecoration(
-                labelText: 'Titulo',
-                floatingLabelStyle: TextStyle(color: Colors.amber[700]),
-                border: const OutlineInputBorder(),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.amber.shade700),
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        margin: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                TextField(
+                  controller: _titleController,
+                  keyboardAppearance: Brightness.dark,
+                  decoration: InputDecoration(
+                    labelText: 'Titulo',
+                    floatingLabelStyle: TextStyle(color: Colors.amber[700]),
+                    border: const OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.amber.shade700),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _valueController,
-              keyboardAppearance: Brightness.dark,
-              onSubmitted: (_) => _handleSubmitForm(),
-              keyboardType: const TextInputType.numberWithOptions(
-                decimal: true,
-              ),
-              decoration: InputDecoration(
-                labelText: r'Valor (R$)',
-                floatingLabelStyle: TextStyle(color: Colors.amber[700]),
-                border: const OutlineInputBorder(),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.amber.shade700),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: _valueController,
+                  keyboardAppearance: Brightness.dark,
+                  onSubmitted: (_) => _handleSubmitForm(),
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
+                  decoration: InputDecoration(
+                    labelText: r'Valor (R$)',
+                    floatingLabelStyle: TextStyle(color: Colors.amber[700]),
+                    border: const OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.amber.shade700),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            //
+                //
 
-            SizedBox(
-              height: 40,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    _selectedDate == null
-                        ? 'Selecione uma data'
-                        : DateFormat('d MMM y').format(_selectedDate!),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w300,
-                      fontStyle: FontStyle.italic,
-                    ),
+                SizedBox(
+                  height: 40,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        _selectedDate == null
+                            ? 'Selecione uma data'
+                            : DateFormat('d MMM y').format(_selectedDate!),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w300,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: _showDatePicker,
+                        child: Text(
+                          'Selecionar data',
+                          style: TextStyle(color: primaryColor),
+                        ),
+                      ),
+                    ],
                   ),
-                  TextButton(
-                    onPressed: _showDatePicker,
-                    child: Text(
-                      'Selecionar data',
-                      style: TextStyle(color: primaryColor),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 24),
-            //
-            Align(
-              alignment: Alignment.centerRight,
-              child: ElevatedButton(
-                child: const Text(
-                  'NOVA TRANSAÇÃO',
                 ),
-                onPressed: _handleSubmitForm,
-              ),
+                const SizedBox(height: 24),
+                //
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: ElevatedButton(
+                    child: const Text(
+                      'NOVA TRANSAÇÃO',
+                    ),
+                    onPressed: _handleSubmitForm,
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
