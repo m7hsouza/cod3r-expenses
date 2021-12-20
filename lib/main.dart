@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:cod3r_expenses/components/chart_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'components/transaction_form.dart';
@@ -47,68 +46,7 @@ enum AppSate { showChart, showList }
 
 class _HomePageState extends State<HomePage> {
   AppSate _state = AppSate.showChart;
-  final _transactions = [
-    Transaction(
-      id: '00',
-      title: 'Acadêmia',
-      value: 400,
-      date: DateTime.now().subtract(const Duration(days: 3)),
-    ),
-    Transaction(
-      id: '01',
-      title: 'Lanche',
-      value: 50,
-      date: DateTime.now().subtract(const Duration(days: 2)),
-    ),
-    Transaction(
-      id: '011',
-      title: 'Jogos',
-      value: 200,
-      date: DateTime.now().subtract(const Duration(days: 2)),
-    ),
-    Transaction(
-      id: '02',
-      title: 'Lanche',
-      value: 25,
-      date: DateTime.now().subtract(const Duration(days: 4)),
-    ),
-    Transaction(
-      id: '03',
-      title: 'Cinema',
-      value: 150,
-      date: DateTime.now().subtract(const Duration(days: 6)),
-    ),
-    Transaction(
-      id: '04',
-      title: 'Lanche',
-      value: 20,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: '05',
-      title: 'Uber',
-      value: 20,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: '06',
-      title: 'Facudade',
-      value: 250,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: '07',
-      title: 'Internet',
-      value: 100,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: '08',
-      title: 'Conta de agua',
-      value: 250,
-      date: DateTime.now(),
-    ),
-  ];
+  final _transactions = <Transaction>[];
 
   List<Transaction> get _recentTransactions {
     final compareDate = DateTime.now().subtract(const Duration(days: 7));
